@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br/>
+<br/>
+
+{% if response %}
+    {% if 'Error' in response %}
+        {{ response }}
+    {% else %}
+        <div class="jumbotron {{aqi_color}}">
+            <h1 class="display-5">Air Pollution data for the (lat, lon) = ({{ response.coord.lat }}, {{ response.coord.lon }})</h1>
+            <p class="lead">Below data is fetched from the openweathermap.org API on {{ response.list.0.dt|dt }} at {{ response.list.0.dt|tm }} IST</p>
+            <p>This box changes color based on the AQI index. Default coordinates chosen: Delhi (28.7041, 77.1025)</p>
+            <p>Default coordinates chosen: Delhi (28.7041, 77.1025)</p>
+            <hr class="my-4">
+            <table>
+                <tr>
+                    <td>
+                        Overall Air Quality
+                    </td>
+                    <td>
+                        : Index {{ response.list.0.main.aqi }} (
+                            {% if response.list.0.main.aqi == 1 %}
+                                Good
+                            {% elif response.list.0.main.aqi == 2 %}
+                                Fair
+                            {% elif response.list.0.main.aqi == 3 %}
+                                Moderate
+                            {% elif response.list.0.main.aqi == 4 %}
+                                Poor
+                            {% elif response.list.0.main.aqi == 5 %}
+                                Very Poor
+                            {% endif %}
+                        )
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of CO (Carbon Monoxide)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.co }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of NO (Nitrogen Monoxide)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.no }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of NO<sub>2</sub> (Nitrogen Dioxide)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.no2 }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of O<sub>3</sub> (Ozone)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.o3 }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of SO<sub>2</sub> (Sulphur Dioxide)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.so2 }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of PM<sub>2.5</sub> (Fine Particulate Matter)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.pm2_5 }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of PM<sub>10</sub> (Coarse Particulate Matter)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.pm10 }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Concentration of NH<sub>3</sub> (Ammonia)
+                    </td>
+                    <td>
+                        : {{ response.list.0.components.nh3 }} &#181;g/m<sup>3</sup>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+    {% endif %}
+{% endif %}
+
+
+{% endblock %}
